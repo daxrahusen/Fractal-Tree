@@ -8,21 +8,43 @@
 
 #import "ViewController.h"
 
+#import "FractalView.h"
+
 @interface ViewController ()
 
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+- (instancetype)init
+{
+    self = [super initWithNibName:nil bundle:nil];
+    if (self) {
+    }
+    return self;
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    FractalView *v = [[FractalView alloc] init];
+    [self.view addSubview:v];
+    
+    //
+    // Layout
+    //
+    NSDictionary *views = @{@"v": v};
+    
+    [NSLayoutConstraint activateConstraints:[NSLayoutConstraint
+        constraintsWithVisualFormat:@"H:|-0-[v]-0-|"
+        options:0 metrics:nil views:views
+    ]];
+    [NSLayoutConstraint activateConstraints:[NSLayoutConstraint
+        constraintsWithVisualFormat:@"V:|-0-[v]-0-|"
+        options:0 metrics:nil views:views
+    ]];
 }
 
 
