@@ -9,6 +9,9 @@
 #import "FractalView.h"
 
 @implementation FractalView
+{
+    UILabel *_timeLabel;
+}
 
 - (instancetype)init
 {
@@ -18,8 +21,55 @@
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.backgroundColor = [UIColor clearColor];
         self.contentMode = UIViewContentModeRedraw;
+        
+        _timeLabel = [[UILabel alloc] init];
+        _timeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _timeLabel.font = [UIFont boldSystemFontOfSize:20];
+        _timeLabel.textColor = [UIColor blackColor];
+        _timeLabel.text = @"Year 0";
+        [self addSubview:_timeLabel];
+        
+        UIView *lineView = [[UIView alloc] init];
+        lineView.translatesAutoresizingMaskIntoConstraints = NO;
+        lineView.backgroundColor = [UIColor blackColor];
+        [self addSubview:lineView];
+        
+        //
+        // Layout
+        //
+        NSDictionary *views = NSDictionaryOfVariableBindings(_timeLabel);
+        
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint
+            constraintsWithVisualFormat:@"H:|-20-[_timeLabel]"
+            options:0 metrics:nil views:views
+        ]];
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint
+            constraintsWithVisualFormat:@"V:|-40-[_timeLabel]"
+            options:0 metrics:nil views:views
+        ]];
+        
+        [NSLayoutConstraint activateConstraints:@[
+            [lineView.leftAnchor constraintEqualToAnchor:self.leftAnchor],
+            [lineView.rightAnchor constraintEqualToAnchor:self.rightAnchor],
+            [lineView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
+            [lineView.heightAnchor constraintEqualToConstant:2]
+        ]];
     }
     return self;
+}
+
+- (void)updateUI {
+    
+    _timeLabel.text = [NSString stringWithFormat:@"Year %.f", _level];
+    
+    [self setNeedsDisplay];
+}
+
+- (void)setLevel:(CGFloat)level {
+    if (_level != level) {
+        _level = level;
+        [self updateUI];
+    }
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -36,7 +86,7 @@
     [self
         drawBrancheWithContext:c
         startPoint:startPoint
-        level:12
+        level:_level
         length:b.size.width / 6
         angle:M_PI + M_PI_2
     ];

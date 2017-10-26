@@ -10,6 +10,8 @@
 
 @interface FractalView : UIView
 
+@property (nonatomic, readwrite) CGFloat level;
+
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
