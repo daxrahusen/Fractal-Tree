@@ -123,7 +123,7 @@
          drawBrancheWithContext:context
          startPoint:endPoint
          level:l
-         length:length * 0.8
+         length:length * .8
          angle:angle - M_PI_4 / 2
      ];
 
